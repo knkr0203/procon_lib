@@ -14,5 +14,4 @@ This code contains following contents.
 - nCr
 
 ## Author
-
 [Knkr0203](https://github.com/Knkr0203)
