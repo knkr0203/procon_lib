@@ -1,0 +1,19 @@
+# nCr
+def nCr(n,r):
+  return math.factorial(n)//(math.factorial(n-r)*math.factorial(r))
+
+# a〜z
+l=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+
+# A~Z
+l=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+
+# GCD
+def gcd(x,y):
+  while y:
+    x,y=y,x%y
+  return x
+
+# LCM
+def lcm(x,y):
+  return x*y/gcd(x,y)
