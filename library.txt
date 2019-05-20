@@ -24,3 +24,18 @@ class struct:
     self.a=a
     self.b=b
     self.c=c
+
+# Elastotenes's sieve
+def getPrimeList(x):
+  l1=list(range(2,x+1))
+  l2=[]
+  
+  while True:
+    if len(l1)==0:
+      return l2
+  
+    x=l1[0]
+    l2.append(x)
+    for y in l1:
+      if y%x==0:
+        l1.remove(y)
