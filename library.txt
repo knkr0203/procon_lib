@@ -39,3 +39,18 @@ def getPrimeList(x):
     for y in l1:
       if y%x==0:
         l1.remove(y)
+
+# Factoring by trial split
+def getPrimeList(n):
+  l=[]
+  t=int(math.sqrt(n))+1
+  
+  for a in range(2,t):
+    while n%a==0:
+      n//=a
+      l.append(a)
+  
+  if n!=1:
+    l.append(n)
+  
+  return l
