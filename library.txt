@@ -4,6 +4,12 @@ l=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','
 # A~Z
 l=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 
+# Deg
+l=['NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW','N']
+
+# Beaufort scale
+l=[0.2,1.5,3.3,5.4,7.9,10.7,13.8,17.1,20.7,24.4,28.4,32.6]
+
 # GCD
 def gcd(x,y):
   while y:
