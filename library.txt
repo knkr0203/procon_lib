@@ -68,3 +68,7 @@ def ten2n(a,n):
   if x:
     return ten2n(x,n)+str(y)
   return str(y)
+
+# usage example of ten2n
+for i in range(pow(2,n)):
+  print(ten2n(i,2).zfill(n))
