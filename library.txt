@@ -79,3 +79,20 @@ def ten2n(a,n):
 # usage example of ten2n
 for i in range(pow(2,n)):
   print(ten2n(i,2).zfill(n))
+
+# Summarize count of factor within list
+def summarize_list(l):
+  a=l[0]
+  c=1
+  res=[]
+
+  for x in l[1:]:
+    if x==a:
+      c+=1
+    else:
+      res.append([a,c])
+      a=x
+      c=1
+  res.append([a,c])
+
+  return res
