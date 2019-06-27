@@ -85,8 +85,9 @@ def summarize_list(l):
   a=l[0]
   c=1
   res=[]
+  sl=sorted(l)
 
-  for x in l[1:]:
+  for x in sl[1:]:
     if x==a:
       c+=1
     else:
