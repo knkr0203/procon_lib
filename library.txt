@@ -86,7 +86,7 @@ for i in range(pow(2,n)):
 def summarize_list(l):
   sl=sorted(l)
 
-  a=l[0]
+  a=sl[0]
   c=1
   res=[]
 
