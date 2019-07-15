@@ -14,9 +14,6 @@ l=[0.2,1.5,3.3,5.4,7.9,10.7,13.8,17.1,20.7,24.4,28.4,32.6]
 s='WBWBWWBWBWBW'
 t=['Do','Do','Re','Re','Mi','Fa','Fa','So','So','La','La','Si']
 
-# 8_direction
-[(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]
-
 # GCD
 def gcd(x,y):
   while y:
@@ -78,7 +75,7 @@ def ten2n(a,n):
     return ten2n(x,n)+str(y)
   return str(y)
 
-# usage example of ten2n
+## usage example of ten2n
 for i in range(pow(2,n)):
   print(ten2n(i,2).zfill(n))
 
