@@ -38,7 +38,7 @@ class struct:
     self.c=c
 
 # Elastotenes's sieve
-def getPrimeList(n):
+def elastotenesSieve(n):
   l1=list(range(2,n+1))
   l2=[]
   
