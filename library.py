@@ -97,3 +97,29 @@ def summarize_list(l):
   res.append([a,c])
 
   return res
+
+# Fibonacci DP
+dp=[0]*110
+dp[0]=1
+dp[1]=1
+
+def fib(n):
+  if dp[n]!=0:
+    return dp[n]
+  dp[n]=fib(n-1)+fib(n-2)
+  return dp[n]
+
+# LCS
+def lcs(x,y):
+  m=len(x)
+  n=len(y)
+  dp=[[0]*(n+1) for _ in range(m+1)]
+
+  for i in range(m):
+    for j in range(n):
+      if x[i]==y[j]:
+        dp[i+1][j+1]=dp[i][j]+1
+      else:
+        dp[i+1][j+1]=max(dp[i][j+1],dp[i+1][j])
+
+  return dp[m][n]

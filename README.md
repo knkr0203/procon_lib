@@ -21,6 +21,8 @@ This code contains following contents.
 - Factoring by trial split
 - 10 -> n
 - Summarize count of factor within list
+- Fibonacci DP
+- LCS
 
 ## Author
 [Knkr0203](https://github.com/Knkr0203)
