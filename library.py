@@ -30,12 +30,19 @@ def nCr(n,r):
     return 0
   return math.factorial(n)//(math.factorial(n-r)*math.factorial(r))
 
-# struct
+# Struct
 class struct:
   def __init__(self,a,b,c):
     self.a=a
     self.b=b
     self.c=c
+
+# Node
+class node(parent,left,right):
+  def __init__(self,parent,left,right):
+    self.parent=parent
+    self.left=left
+    self.right=right
 
 # Elastotenes's sieve
 def elastotenesSieve(n):
@@ -123,3 +130,25 @@ def lcs(x,y):
         dp[i+1][j+1]=max(dp[i][j+1],dp[i+1][j])
 
   return dp[m][n]
+
+# Union-Find (No-Rank)
+par=[0]*100010
+for i in range(100010):
+  par[i]=i
+
+def root(x):
+  if par[x]==x:
+    return x
+  else:
+    par[x]=root(par[x])
+    return par[x]
+
+def same(x,y):
+  return root(x)==root(y)
+
+def unite(x,y):
+  x=root(x)
+  y=root(y)
+  if x==y:
+    return
+  par[x]=y
