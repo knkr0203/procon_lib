@@ -18,10 +18,32 @@ def summarize_list(l):
   return res
 # Summarize count of factor within list --- END ---
 
+# palindrome check(kaibun・回文) -- START --
+def isPalindrome(s):
+  l1=list(s)
+  l2=l1[::-1]
+
+  if l1==l2:
+    return True
+  return False
+# palindrome check(kaibun・回文) --- END ---
+
 # nC2 -- START --
 def nC2(n):
   return n*(n-1)//2
 # nC2 --- END ---
+
+# ceil(kiriage) -- START --
+def main():
+  a=1.2
+  math.ceil(a)
+# ceil(kiriage) --- END ---
+
+# floor(kirisute) -- START --
+def main():
+  a=1.2
+  math.floor(a)
+# floor(kirisute) --- END ---
 
 # bit traversal -- START --
 def main():
@@ -89,6 +111,35 @@ def lcm(x,y):
   return x*y//gcd(x,y)
 # LCM --- END ---
 
+# factorial -- START --
+def factorial(n):
+  ret=n
+  for i in range(2,n):
+    ret*=i
+  return ret
+# factorial --- END ---
+
+# factorial(mod) -- START --
+def factorialMod(n,m):
+  ret=n
+  for i in range(2,n):
+    ret*=i
+    ret%=m
+  return ret
+# factorial(mod) --- END ---
+
+# nCr(mod) -- START --
+# n!/r!(n-r)!
+def nCrMod(n,r,m):
+  # need lib of factorial(mod)
+  n_fac=factorialMod(n,m)
+  a=factorialMod(r,m)
+  b=factorialMod(n-r,m)
+
+  denom_fac_inv=pow(a*b,m-2,m)
+  return n_fac*denom_fac_inv%m
+# nCr(mod) --- END ---
+
 # nCr -- START --
 def nCr(n,r):
   if n<r:
@@ -97,26 +148,26 @@ def nCr(n,r):
 # nCr --- END ---
 
 # nCr(2) -- START --
-def cmb(n, r):
-  if n - r < r: r = n - r
-  if r == 0: return 1
-  if r == 1: return n
+def cmb(n,r):
+  if n-r<r: r=n-r
+  if r==0: return 1
+  if r==1: return n
 
-  numerator = [n - r + k + 1 for k in range(r)]
-  denominator = [k + 1 for k in range(r)]
+  numerator=[n-r+k+1 for k in range(r)]
+  denominator=[k+1 for k in range(r)]
 
   for p in range(2,r+1):
-    pivot = denominator[p - 1]
-    if pivot > 1:
-      offset = (n - r) % p
+    pivot=denominator[p-1]
+    if pivot>1:
+      offset=(n-r)%p
       for k in range(p-1,r,p):
-        numerator[k - offset] /= pivot
-        denominator[k] /= pivot
+        numerator[k-offset]/=pivot
+        denominator[k]/=pivot
 
-  result = 1
+  result=1
   for k in range(r):
-    if numerator[k] > 1:
-      result *= int(numerator[k])
+    if numerator[k]>1:
+      result*=int(numerator[k])
 
   return result
 # nCr(2) --- END ---
@@ -231,40 +282,30 @@ def lcs(x,y):
 # LCS --- END ---
 
 # Union-Find -- START --
-par=[0]*100010
-rank=[0]*100010
+class UnionFind():
+  def __init__(self,sz):
+    self.sz=sz
+    self.data=[-1]*sz
 
-## initialize with n elements
-def init(n):
-  for i in range(n):
-    par[i]=i
-    rank[i]=0
+  def unite(self,x,y):
+    x=self.find(x)
+    y=self.find(y)
+    if x==y:
+      return False
+    if self.data[x]>self.data[y]:
+      x,y=y,x
+    self.data[x]+=self.data[y]
+    self.data[y]=x
+    return True
 
-## find root of tree
-def find(x):
-  if par[x]==x:
-    return x
-  else:
-    par[x]=find(par[x])
-    return par[x]
+  def find(self,k):
+    if self.data[k]<0:
+      return k
+    self.data[k]=self.find(self.data[k])
+    return self.data[k]
 
-## unite the set to which x and y belong
-def unite(x,y):
-  x=find(x)
-  y=find(y)
-  if x==y:
-    return
-
-  if rank[x]<rank[y]:
-    par[x]=y
-  else:
-    par[y]=x
-    if rank[x]==rank[y]:
-      rank[x]+=1
-
-## whether x and y belong to the same set
-def same(x,y):
-  return find(x)==find(y)
+  def size(self,k):
+    return -self.data[self.find(k)]
 # Union-Find --- END ---
 
 # Convert from decimal to N -- START --
@@ -304,7 +345,7 @@ def main():
       for k in range(2):
         if j==0:
           for m in range(n+1):
-            dp[i+1][j or m<n][k or m==3]+=dp[i][j][k]
+            dp[i+1][m<n][k or m==3]+=dp[i][j][k]
         else:
           for m in range(10):
             dp[i+1][j][k or m==3]+=dp[i][j][k]
