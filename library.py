@@ -1,5 +1,5 @@
 # Summarize count of factor within list -- START --
-def summarize_list(l):
+def summarizeList(l):
   sl=sorted(l)
 
   a=sl[0]
@@ -17,6 +17,186 @@ def summarize_list(l):
 
   return res
 # Summarize count of factor within list --- END ---
+
+# Range Minimum Query -- START --
+class SegmentTree():
+  def __init__(self,v):
+    sz=len(v)
+    self.sz=1
+    while self.sz<sz:
+      self.sz*=2
+    self.dat=[10**20]*(2*self.sz-1)
+    for i,x in enumerate(v):
+      self.update(i,x)
+
+  def update(self,i,x):
+    i+=self.sz-1
+    self.dat[i]=x
+    while i>0:
+      i=(i-1)//2
+      self.dat[i]=min(self.dat[i*2+1],self.dat[i*2+2])
+
+  def query(self,a,b,k=0,l=0,r=-1):
+    if r<0:
+      r=self.sz
+    if r<=a or b<=l:
+      return 10**20
+    if a<=l and r<=b:
+      return self.dat[k]
+    vl=self.query(a,b,k*2+1,l,(l+r)//2)
+    vr=self.query(a,b,k*2+2,(l+r)//2,r)
+    return min(vl,vr)
+# Range Minimum Query --- END ---
+
+# Range Maximum Query -- START --
+class SegmentTree():
+  def __init__(self,v):
+    sz=len(v)
+    self.sz=1
+    while self.sz<sz:
+      self.sz*=2
+    self.dat=[-(10**20)]*(2*self.sz-1)
+    for i,x in enumerate(v):
+      self.update(i,x)
+
+  def update(self,i,x):
+    i+=self.sz-1
+    self.dat[i]=x
+    while i>0:
+      i=(i-1)//2
+      self.dat[i]=max(self.dat[i*2+1],self.dat[i*2+2])
+
+  def query(self,a,b,k=0,l=0,r=-1):
+    if r<0:
+      r=self.sz
+    if r<=a or b<=l:
+      return -(10**20)
+    if a<=l and r<=b:
+      return self.dat[k]
+    vl=self.query(a,b,k*2+1,l,(l+r)//2)
+    vr=self.query(a,b,k*2+2,(l+r)//2,r)
+    return max(vl,vr)
+# Range Maximum Query --- END ---
+
+# Range Xor Query -- START --
+class SegmentTree():
+  def __init__(self,v):
+    sz=len(v)
+    self.sz=1
+    while self.sz<sz:
+      self.sz*=2
+    self.dat=[0]*(2*self.sz-1)
+    for i,x in enumerate(v):
+      self.update(i,x)
+
+  def update(self,i,x):
+    i+=self.sz-1
+    self.dat[i]=x
+    while i>0:
+      i=(i-1)//2
+      self.dat[i]=self.dat[i*2+1]^self.dat[i*2+2]
+
+  def query(self,a,b,k=0,l=0,r=-1):
+    if r<0:
+      r=self.sz
+    if r<=a or b<=l:
+      return 0
+    if a<=l and r<=b:
+      return self.dat[k]
+    vl=self.query(a,b,k*2+1,l,(l+r)//2)
+    vr=self.query(a,b,k*2+2,(l+r)//2,r)
+    return vl^vr
+# Range Xor Query --- END ---
+
+# BinaryIndexedTree（BIT） -- START --
+class BinaryIndexedTree:
+  def __init__(self,sz):
+    self.sz=sz
+    self.data=[0]*(sz+1)
+
+  def sum(self,k):
+    ret=0
+    while k>0:
+      ret+=self.data[k]
+      k-=k&(-k)
+    return ret
+
+  def add(self,k,x):
+    k+=1
+    while k<=self.sz:
+      self.data[k]+=x
+      k+=k&(-k)
+
+## BITで転倒数計算
+# def main():
+#   l=LI()
+#   ans=0
+#   bit=BinaryIndexedTree(max(l)+1)
+#   for i,a in enumerate(l):
+#     ans+=i-bit.sum(a+1)
+#     bit.add(a,1)
+#   return ans
+
+# BinaryIndexedTree（BIT） --- END ---
+
+# a〜z -- START --
+alf=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+# a〜z --- END ---
+
+# A~Z -- START --
+alf=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+# A~Z --- END ---
+
+# dijkstra -- START --
+def dijkstra(n,s,edge):
+  d=[10**20]*n
+  used=[False]*n
+  d[s]=0
+  used[s]=True
+  pq=[]
+  for e in edge[s]:
+    heapq.heappush(pq,e)
+  while pq:
+    c,v=heapq.heappop(pq)
+    if used[v]:
+      continue
+    d[v]=c
+    used[v]=True
+    for nc,nv in edge[v]:
+      if not used[nv]:
+        nd=nc+c
+        if d[nv]>nd:
+          heapq.heappush(pq,[nd,nv])
+  return d
+
+# How to use -- START --
+# Verify: https://atcoder.jp/contests/typical90/tasks/typical90_m
+# 
+# edge=[[] for _ in range(n)]
+# for _ in range(m):
+#   x,y,cost=LI()
+#   x-=1
+#   y-=1
+#   edge[x].append([cost,y])
+#   edge[y].append([cost,x])
+# st=0
+# d=dijkstra(n,st,edge)
+# 
+# How to use --- END ---
+# dijkstra --- END ---
+
+# Warshall floyd -- START --
+def warshallFloyd(d):
+  n=len(d)
+  for k in range(n):
+    for i in range(n):
+      for j in range(n):
+        if i==j:
+          d[i][j]=0
+        else:
+          d[i][j]=min(d[i][j],d[i][k]+d[k][j])
+  return d
+# Warshall floyd --- END ---
 
 # palindrome check(kaibun・回文) -- START --
 def isPalindrome(s):
@@ -83,14 +263,6 @@ def main():
   s=list(s)
 # deque2 --- END ---
 
-# a〜z -- START --
-l=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-# a〜z --- END ---
-
-# A~Z -- START --
-l=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-# A~Z --- END ---
-
 # Deg -- START --
 l=['NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW','N']
 # Deg --- END ---
@@ -111,6 +283,32 @@ def lcm(x,y):
   return x*y//gcd(x,y)
 # LCM --- END ---
 
+# osa_k method -- START --
+class Osa_k():
+  def __init__(self,n):
+    self.n=n
+    self.min_factor=[0]*(n+1)
+    self.factorList=[[] for _ in range(n+1)]
+    for i in range(n+1):
+      self.min_factor[i]=i
+
+    for i in range(2,int(math.sqrt(n)+1)):
+      if self.min_factor[i]==i:
+        for j in range(2,n//i+1):
+          if self.min_factor[i*j]>i:
+            self.min_factor[i*j]=i
+
+  def getFactor(self,m):
+    if len(self.factorList[m]):
+      return self.factorList[m]
+    tmp_factor=[]
+    while m>1:
+      tmp_factor.append(self.min_factor[m])
+      m//=self.min_factor[m]
+    self.factorList[m]=tmp_factor
+    return tmp_factor
+# osa_k method --- END ---
+
 # factorial -- START --
 def factorial(n):
   ret=n
@@ -128,16 +326,39 @@ def factorialMod(n,m):
   return ret
 # factorial(mod) --- END ---
 
-# nCr(mod) -- START --
-# n!/r!(n-r)!
-def nCrMod(n,r,m):
-  # need lib of factorial(mod)
-  n_fac=factorialMod(n,m)
-  a=factorialMod(r,m)
-  b=factorialMod(n-r,m)
+# n^p(mod m) -- START --
+def powMod(n,p,m):
+  if p==0:
+    return 1
+  if p%2==0:
+    t=powMod(n,p//2,m)
+    return t*t%m
+  return n*powMod(n,p-1,m)%m
+# n^p(mod m) --- END ---
 
-  denom_fac_inv=pow(a*b,m-2,m)
-  return n_fac*denom_fac_inv%m
+# mod inverse -- START --
+pow(a,m-2,m)
+# mod inverse --- END ---
+
+# nCr(mod) -- START --
+class ComMod():
+  def __init__(self,n,mod):
+    self.n=n
+    self.mod=mod
+    self.fact=[0]*(n+1)
+    self.ifact=[0]*(n+1)
+    self.fact[0]=1  
+    for i in range(1,n+1):
+      self.fact[i]=self.fact[i-1]*i
+      self.fact[i]%=self.mod
+    self.ifact[n]=pow(self.fact[n],self.mod-2,self.mod)
+    for i in range(n,0,-1):
+      self.ifact[i-1]=self.ifact[i]*i
+      self.ifact[i-1]%=self.mod
+  def com(self,n,k):
+    if n<0 or k<0 or n<k:
+      return 0
+    return self.fact[n]*(self.ifact[k]*self.ifact[n-k]%self.mod)%self.mod
 # nCr(mod) --- END ---
 
 # nCr -- START --
@@ -179,14 +400,6 @@ class struct:
     self.b=b
     self.c=c
 # Struct --- END ---
-
-# Node -- START --
-class node(parent,left,right):
-  def __init__(self,parent,left,right):
-    self.parent=parent
-    self.left=left
-    self.right=right
-# Node --- END ---
 
 # Elastotenes's sieve -- START --
 def elastotenesSieve(n):
@@ -239,6 +452,16 @@ def getPrimeList(n):
   return l
 # Factoring by trial split --- END ---
 
+# isPrime -- START --
+def isPrime(x):
+  if x==1:
+    return False
+  for i in range(2,int(math.sqrt(x))+1):
+    if x%i==0:
+      return False
+  return True
+# isPrime --- END ---
+
 # 10 -> n -- START --
 def ten2n(a,n):
   x=a//n
@@ -253,45 +476,20 @@ for i in range(pow(2,n)):
   print(ten2n(i,2).zfill(n))
 ## usage example of ten2n --- END ---
 
-# Fibonacci DP -- START --
-dp=[0]*110
-dp[0]=1
-dp[1]=1
-
-def fib(n):
-  if dp[n]!=0:
-    return dp[n]
-  dp[n]=fib(n-1)+fib(n-2)
-  return dp[n]
-# Fibonacci DP --- END ---
-
-# LCS -- START --
-def lcs(x,y):
-  m=len(x)
-  n=len(y)
-  dp=[[0]*(n+1) for _ in range(m+1)]
-
-  for i in range(m):
-    for j in range(n):
-      if x[i]==y[j]:
-        dp[i+1][j+1]=dp[i][j]+1
-      else:
-        dp[i+1][j+1]=max(dp[i][j+1],dp[i+1][j])
-
-  return dp[m][n]
-# LCS --- END ---
-
 # Union-Find -- START --
 class UnionFind():
   def __init__(self,sz):
     self.sz=sz
     self.data=[-1]*sz
+    self.amount=[0]*sz
 
   def unite(self,x,y):
     x=self.find(x)
     y=self.find(y)
     if x==y:
       return False
+    self.amount[x]+=self.amount[y]
+    self.amount[y]+=self.amount[x]
     if self.data[x]>self.data[y]:
       x,y=y,x
     self.data[x]+=self.data[y]
@@ -306,6 +504,12 @@ class UnionFind():
 
   def size(self,k):
     return -self.data[self.find(k)]
+
+  def set_amount(self,k,k_amount):
+    self.amount[k]=k_amount
+
+  def get_amount(self,k):
+    return self.amount[k]
 # Union-Find --- END ---
 
 # Convert from decimal to N -- START --
@@ -317,41 +521,14 @@ def Base10ToN(x,n):
   return ret
 # Convert from decimal to N --- END ---
 
-# n^p(mod m) -- START --
-def powMod(n,p,m):
-  if p==0:
-    return 1
-  if p%2==0:
-    t=powMod(n,p//2,m)
-    return t*t%m
-  return n*powMod(n,p-1,m)%m
-# n^p(mod m) --- END ---
-
-# mod inverse -- START --
-pow(a,m-2,m)
-# mod inverse --- END ---
-
-# keta DP -- START --
-def main():
-  s=S()
-  l=len(s)
-
-  dp=[[[0]*2 for _ in range(2)]for __ in range(l+1)]
-  dp[0][0][0]=1
-  
-  for i in range(l):
-    n=int(s[i])
-    for j in range(2):
-      for k in range(2):
-        if j==0:
-          for m in range(n+1):
-            dp[i+1][m<n][k or m==3]+=dp[i][j][k]
-        else:
-          for m in range(10):
-            dp[i+1][j][k or m==3]+=dp[i][j][k]
-
-  return dp[l][0][1]+dp[l][1][1]
-# keta DP --- END ---
+# Analog clock -- START --
+class AnalogClock():
+  def __init__(self,h,m):
+    self.h=h
+    self.m=m
+    self.SHDegree=30*h+m/2
+    self.LHDegree=6*m
+# Analog clock --- END ---
 
 # Beaufort scale -- START --
 l=[0.2,1.5,3.3,5.4,7.9,10.7,13.8,17.1,20.7,24.4,28.4,32.6]
