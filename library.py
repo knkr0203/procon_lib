@@ -401,8 +401,8 @@ class struct:
     self.c=c
 # Struct --- END ---
 
-# Elastotenes's sieve -- START --
-def elastotenesSieve(n):
+# Elatostenes's sieve -- START --
+def elatostenesSieve(n):
   l1=list(range(2,n+1))
   l2=[]
   
@@ -415,7 +415,7 @@ def elastotenesSieve(n):
     for y in l1:
       if y%n==0:
         l1.remove(y)
-# Elastotenes's sieve --- END ---
+# Elatostenes's sieve --- END ---
 
 # primes -- START --
 def primes(x):
@@ -435,6 +435,24 @@ def primes(x):
 
   return [b for b in a if b!=0]
 # primes --- END ---
+
+# nsPrimes -- START --
+def nsPrimes(n):
+  ret=[]
+  while n%2==0:
+    ret.append(2)
+    n//=2
+  b=3
+  while b*b<=n:
+    if n%b==0:
+      ret.append(b)
+      n//=b
+    else:
+      b+=2
+  if n!=1:
+    ret.append(n)
+  return ret
+# nsPrimes --- END ---
 
 # Factoring by trial split -- START --
 def getPrimeList(n):
@@ -520,6 +538,25 @@ def Base10ToN(x,n):
     x=int(x/n)
   return ret
 # Convert from decimal to N --- END ---
+
+# 進数変換コード例　-- START --
+def eight2Ten(n):
+  ret=0
+  n=str(n)[::-1]
+  for i in range(len(n)):
+    ret+=int(n[i])*(8**i)
+  return ret
+
+def ten2Nine(n):
+  ret=''
+  while True:
+    _n=int(n)
+    if _n<9:
+      ret+=str(_n)
+      return int(ret[::-1])
+    ret+=str(n%9)
+    n//=9
+# 進数変換コード例　--- END ---
 
 # Analog clock -- START --
 class AnalogClock():
